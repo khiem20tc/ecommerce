@@ -36,20 +36,20 @@ router.post("/register", AdminController.admin_signup);
 router.post("/login", AdminController.admin_login);
 
 
-const dashbaordRoutes= express.Router();
+const dashboardRoutes= express.Router();
 
-router.use('/dashbaord',dashbaordRoutes);
+router.use('/dashboard',dashboardRoutes);
 
 //can only be accesed by admin through the admin_dashboard
 
 //dashbaordRoutes.post("/", checkAdmin, AdminController.admin_dashboard); admin_dashboard does not exist hence throws error
 
-dashbaordRoutes.post("/addproduct", checkAdmin, upload.single('productImage'), ProductsController.products_create_product);
+dashboardRoutes.post("/addproduct", checkAdmin, upload.single('productImage'), ProductsController.products_create_product);
 
-dashbaordRoutes.patch("/:productId", checkAdmin, ProductsController.products_update_product);
+dashboardRoutes.patch("/:productId", checkAdmin, ProductsController.products_update_product);
 
-dashbaordRoutes.delete("/:productId", checkAdmin, ProductsController.products_delete);
+dashboardRoutes.delete("/:productId", checkAdmin, ProductsController.products_delete);
 
-dashbaordRoutes.delete("/:adminId", checkAdmin, AdminController.admin_delete);
+dashboardRoutes.delete("/:adminId", checkAdmin, AdminController.admin_delete);
 
- module.exports = router;
+module.exports = router;

@@ -9,8 +9,8 @@ const orderRoutes = require("./routes/order");
 const userRoutes = require('./routes/user');
 const adminRoutes = require("./routes/admin");
 
-
-mongoose.connect('mongodb://'+process.env.MONGO_MLAB_US+':'+process.env.MONGO_MLAB_PW+'@ds229609.mlab.com:29609/todo');
+require('dotenv').config() 
+mongoose.connect(process.env.MONGO_URL,{ useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 
 mongoose.Promise = global.Promise;
 
