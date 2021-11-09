@@ -1,9 +1,16 @@
 const mongoose = require("mongoose");
 const Product = require("../models/productmodel");
 
-exports.products_get_all = (req, res, next) => {
-  Product.find()
-    .select("name price quantity _id productImage")
+exports.products_get_all = async (req, res, next) => {
+  let { page, limit, ...filter } = req.query;
+  page = parseInt(page);
+  limit = parseInt(limit);
+
+  Product.find(filter)
+    //.select("name price quantity _id productImage")
+    .sort({ _id: -1 })
+    .skip(page * limit - limit)
+    .limit(limit)
     .exec()
     .then(docs => {
       const response = {
