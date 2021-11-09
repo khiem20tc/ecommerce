@@ -38,6 +38,7 @@ exports.products_create_product = (req, res, next) => {
     _id: new mongoose.Types.ObjectId(),
     name: req.body.name,
     price: req.body.price,
+    quantity: req.body.quantity,
     productImage: req.file.path
   });
   product
@@ -49,6 +50,7 @@ exports.products_create_product = (req, res, next) => {
         createdProduct: {
           name: result.name,
           price: result.price,
+          quantity: result.quantity,
           _id: result._id,
           request: {
             type: "GET",
@@ -95,10 +97,10 @@ exports.products_get_product = (req, res, next) => {
 exports.products_update_product = (req, res, next) => {
   const id = req.params.productId;
   const updateOps = {};
-  for (const ops of req.body) {
-    updateOps[ops.propName] = ops.value;
+  for (const [key, value] of Object.entries(req.body)) {
+    updateOps[key] = value;
   }
-  Product.update({ _id: id }, { $set: updateOps })
+  Product.updateMany({ _id: id }, { $set: updateOps })
     .exec()
     .then(result => {
       res.status(200).json({
