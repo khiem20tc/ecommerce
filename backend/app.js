@@ -8,6 +8,7 @@ const productRoutes = require("./routes/product");
 const orderRoutes = require("./routes/order");
 const userRoutes = require('./routes/user');
 const adminRoutes = require("./routes/admin");
+const categoryRoutes = require("./routes/category");
 
 require('dotenv').config() 
 mongoose.connect(process.env.MONGO_URL,{ useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
@@ -37,6 +38,7 @@ app.use("/products", productRoutes);
 app.use("/orders", orderRoutes);
 app.use("/user", userRoutes);
 app.use("/admin", adminRoutes);
+app.use("/category", categoryRoutes);
 
 app.use((req, res, next) => {
   const error = new Error("Not found");

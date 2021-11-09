@@ -3,17 +3,14 @@ const Product = require("../models/productmodel");
 
 exports.products_get_all = (req, res, next) => {
   Product.find()
-    .select("name price _id productImage")
+    .select("name price quantity _id productImage")
     .exec()
     .then(docs => {
       const response = {
         count: docs.length,
         products: docs.map(doc => {
           return {
-            name: doc.name,
-            price: doc.price,
-            productImage: doc.productImage,
-            _id: doc._id,
+            doc,
             request: {
               type: "GET",
               url: "http://localhost:3000/products/" + doc._id
@@ -39,7 +36,8 @@ exports.products_create_product = (req, res, next) => {
     name: req.body.name,
     price: req.body.price,
     quantity: req.body.quantity,
-    productImage: req.file.path
+    productImage: req.file.path,
+    category: req.body.category
   });
   product
     .save()
@@ -48,10 +46,7 @@ exports.products_create_product = (req, res, next) => {
       res.status(201).json({
         message: "Created product successfully",
         createdProduct: {
-          name: result.name,
-          price: result.price,
-          quantity: result.quantity,
-          _id: result._id,
+          result,
           request: {
             type: "GET",
             url: "http://localhost:3000/products/" + result._id
@@ -70,7 +65,7 @@ exports.products_create_product = (req, res, next) => {
 exports.products_get_product = (req, res, next) => {
   const id = req.params.productId;
   Product.findById(id)
-    .select("name price _id productImage")
+    .select("name price quantity _id productImage")
     .exec()
     .then(doc => {
       console.log("From database", doc);
