@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const AdminController = require('../controllers/admin');
+const UserController = require('../controllers/user');
 const checkAdmin = require('../middleware/check-admin');
-const ProductsController = require('../controllers/products');
 
 
 const storage = multer.diskStorage({
@@ -32,24 +31,6 @@ const upload = multer({
   fileFilter: fileFilter
 });
 
-router.post("/register", AdminController.admin_signup);
-router.post("/login", AdminController.admin_login);
-
-
-const dashboardRoutes= express.Router();
-
-router.use('/dashboard',dashboardRoutes);
-
-//can only be accesed by admin through the admin_dashboard
-
-//dashbaordRoutes.post("/", checkAdmin, AdminController.admin_dashboard); admin_dashboard does not exist hence throws error
-
-dashboardRoutes.post("/addproduct", checkAdmin, upload.single('productImage'), ProductsController.products_create_product);
-
-dashboardRoutes.patch("/:productId", checkAdmin, ProductsController.products_update_product);
-
-dashboardRoutes.delete("/:productId", checkAdmin, ProductsController.products_delete);
-
-dashboardRoutes.delete("/:adminId", checkAdmin, AdminController.admin_delete);
+router.delete("/:userId", checkAdmin, UserController.user_delete);
 
 module.exports = router;

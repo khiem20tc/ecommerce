@@ -3,6 +3,7 @@ const express = require("express");
 const router = express.Router();
 const multer = require('multer');
 const checkAuth = require('../middleware/check-auth');
+const checkManager = require('../middleware/check-manager');
 const ProductsController = require('../controllers/products');
 
 const storage = multer.diskStorage({
@@ -31,8 +32,14 @@ const upload = multer({
   fileFilter: fileFilter
 });
 
-router.get("/", ProductsController.products_get_all);
+router.post("/addproduct", checkManager, upload.single('productImage'), ProductsController.products_create_product);
 
-router.get("/:productId", ProductsController.products_get_product);
+router.patch("/:productId", checkManager, ProductsController.products_update_product);
+
+router.delete("/:productId", checkManager, ProductsController.products_delete);
+
+router.get("/", checkAuth, ProductsController.products_get_all);
+
+router.get("/:productId", checkAuth, ProductsController.products_get_product);
 
 module.exports = router;
