@@ -42,6 +42,7 @@ exports.products_create_product = (req, res, next) => {
     _id: new mongoose.Types.ObjectId(),
     name: req.body.name,
     price: req.body.price,
+    finalPrice: req.body.finalPrice,
     quantity: req.body.quantity,
     productImage: req.file.path,
     category: req.body.category
