@@ -94,6 +94,7 @@ exports.cartAddProduct = async (req, res, next) => {
            status: "Current"
         })
     console.log("cart",cart);
+    //comment
 
     return res.status(201).json({
         message: "Cart updated",
