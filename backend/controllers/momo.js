@@ -1,3 +1,6 @@
+exports.momo = (request,response,next) => {
+let {amount} = request.body
+
 //https://developers.momo.vn/#/docs/en/aiov2/?id=payment-method
 //parameters
 var partnerCode = "MOMO6JAF20211116";
@@ -9,7 +12,9 @@ var orderInfo = "pay with MoMo";
 var redirectUrl = "https://momo.vn/return";
 var ipnUrl = "https://callback.url/notify";
 // var ipnUrl = redirectUrl = "https://webhook.site/454e7b77-f177-4ece-8236-ddf1c26ba7f8";
-var amount = "50000";
+if (!amount) {
+    amount = "50000";
+}
 var requestType = "captureWallet"
 var extraData = ""; //pass empty value if your merchant does not have stores
 
@@ -64,6 +69,10 @@ const req = https.request(options, res => {
         console.log(body);
         console.log('payUrl: ');
         console.log(JSON.parse(body).payUrl);
+        let paypal = JSON.parse(body).payUrl
+        response.status(200).json({
+            message: `Paypal link here to charge here ${paypal}`
+          })
     });
     res.on('end', () => {
         console.log('No more data in response.');
@@ -77,3 +86,4 @@ req.on('error', (e) => {
 console.log("Sending....")
 req.write(requestBody);
 req.end();
+}
