@@ -45,6 +45,7 @@ exports.products_create_product = (req, res, next) => {
     finalPrice: req.body.finalPrice,
     quantity: req.body.quantity,
     productImage: req.file.path,
+    cloudinaryImage: req.body.cloudinaryImage,
     category: req.body.category
   });
   product
