@@ -8,19 +8,19 @@ const CartsController = require('../controllers/carts');
 //router.get("/", checkAuth, OrdersController.orders_get_all);
 
 router.post("/", 
-//checkAuth, 
+checkAuth, 
 CartsController.create_cart);
 
 router.patch("/addProduct", 
-//checkAuth, 
+checkAuth, 
 CartsController.cartAddProduct);
 
 router.patch("/removeProduct", 
-//checkAuth, 
+checkAuth, 
 CartsController.cartRemoveProduct);
 
 router.get("/", 
-//checkAuth, 
+checkAuth, 
 CartsController.getCart);
 
 //router.delete("/:orderId", checkAuth, OrdersController.orders_delete_order);
