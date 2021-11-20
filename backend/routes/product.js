@@ -32,14 +32,24 @@ const upload = multer({
   fileFilter: fileFilter
 });
 
-router.post("/addproduct", checkManager, upload.single('productImage'), ProductsController.products_create_product);
+router.post("/addproduct", 
+//checkManager, 
+upload.single('productImage'), ProductsController.products_create_product);
 
-router.patch("/:productId", checkManager, ProductsController.products_update_product);
+router.patch("/:productId", 
+//checkManager, 
+ProductsController.products_update_product);
 
-router.delete("/:productId", checkManager, ProductsController.products_delete);
+router.delete("/:productId", 
+//checkManager, 
+ProductsController.products_delete);
 
-router.get("/", checkAuth, ProductsController.products_get_all);
+router.get("/", 
+//checkAuth, 
+ProductsController.products_get_all);
 
-router.get("/:productId", checkAuth, ProductsController.products_get_product);
+router.get("/:productId", 
+//checkAuth, 
+ProductsController.products_get_product);
 
 module.exports = router;
