@@ -17,7 +17,7 @@ exports.statusMomo = async (req,res,next) => {
 }
 
 exports.momo = (request,response,next) => {
-let {amount,orderId} = request.body
+let {amount,orderId,redirectUrl} = request.body
 
 //https://developers.momo.vn/#/docs/en/aiov2/?id=payment-method
 //parameters
@@ -29,7 +29,10 @@ if(!orderId) {
     orderId = requestId;
 }
 var orderInfo = "pay with MoMo";
-var redirectUrl = "https://momo.vn/return";
+if(!redirectUrl) {
+    redirectUrl = "https://momo.vn/return";
+}
+//var redirectUrl = "https://momo.vn/return";
 //var ipnUrl = "https://callback.url/notify";
 var ipnUrl = "https://ecommerce-be-apis.herokuapp.com/momo/listenMomo";
 // var ipnUrl = redirectUrl = "https://webhook.site/454e7b77-f177-4ece-8236-ddf1c26ba7f8";
@@ -92,7 +95,7 @@ const req = https.request(options, res => {
         console.log(JSON.parse(body).payUrl);
         let paypal = JSON.parse(body).payUrl
         response.status(200).json({
-            message: `Paypal link to charge here ${paypal}`
+            paypalUrl: paypal
           })
     });
     res.on('end', () => {
