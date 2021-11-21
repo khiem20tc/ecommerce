@@ -11,4 +11,13 @@ router.post("/",
 //checkAuth, 
 MomoControllers.momo);
 
+router.post("/listenMomo", 
+//checkAuth, 
+MomoControllers.listenMomo);
+
+
+router.get("/statusMomo", 
+//checkAuth, 
+MomoControllers.statusMomo);
+
 module.exports = router;

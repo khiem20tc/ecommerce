@@ -2,26 +2,27 @@ const sgMail = require('@sendgrid/mail')
 
 exports.sendemail = (req,res,next) => {
     //sgMail.setApiKey(process.env.SENDGRID_API_KEY)
-    sgMail.setApiKey("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")
+    sgMail.setApiKey("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")
 
 const {toEmail, content} = req.body;
+console.log("toEmail",toEmail)
 //const toEmail_ = "khiem.nguyen20tc@hcmut.edu.vn";
 
 const msg = {
   to: toEmail, // Change to your recipient
-  from: 'khiem20tc@gmail.com', // Change to your verified sender
-  subject: '[Ecommerce] Order Information',
+  from: 'blacksecret0998@gmail.com', // Change to your verified sender
+  subject: '[Ecommerce] Marketing Email',
   //text: 'This is email to test sendEmail feature heheheheh',
   //html: '<strong>and easy to do anywhere, even with Node.js</strong>',
   html: `
   <div>
   <p>Email: Your email is ${toEmail}</p>
-  <p>Content: Ecommerce System send your Order with content: ${content} </p>
+  <p>Content: Ecommerce System send you information marketing: ${content} </p>
 </div>`,
 }
 
 sgMail
-  .send(msg)
+  .sendMultiple(msg)
   .then((res) => {
     console.log(res[0].statusCode)
     console.log(res[0].headers)

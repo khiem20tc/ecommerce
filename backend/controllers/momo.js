@@ -1,5 +1,23 @@
+const Momo = require("../models/momomodel");
+
+exports.listenMomo = async (req,res,next) => {
+    console.log(req.body)
+    const momo = {
+        orderId: req.body.orderId,
+        info: req.body
+    }
+    await Momo.create(momo);
+    return res.status(200);
+}
+
+exports.statusMomo = async (req,res,next) => {
+    let {orderId} = req.query.orderId
+    const momoOrderInfo = await Momo.find(orderId);
+    return res.status(200).json(momoOrderInfo);
+}
+
 exports.momo = (request,response,next) => {
-let {amount} = request.body
+let {amount,orderId} = request.body
 
 //https://developers.momo.vn/#/docs/en/aiov2/?id=payment-method
 //parameters
@@ -7,10 +25,13 @@ var partnerCode = "MOMO6JAF20211116";
 var accessKey = "wlWFJZKEBXIDoC0U";
 var secretkey = "SQLf4VwD5ayRnRvES0fCSeJS5BHficQl";
 var requestId = partnerCode + new Date().getTime();
-var orderId = requestId;
+if(!orderId) {
+    orderId = requestId;
+}
 var orderInfo = "pay with MoMo";
 var redirectUrl = "https://momo.vn/return";
-var ipnUrl = "https://callback.url/notify";
+//var ipnUrl = "https://callback.url/notify";
+var ipnUrl = "https://ecommerce-be-apis.herokuapp.com/momo/listenMomo";
 // var ipnUrl = redirectUrl = "https://webhook.site/454e7b77-f177-4ece-8236-ddf1c26ba7f8";
 if (!amount) {
     amount = "50000";
@@ -71,7 +92,7 @@ const req = https.request(options, res => {
         console.log(JSON.parse(body).payUrl);
         let paypal = JSON.parse(body).payUrl
         response.status(200).json({
-            message: `Paypal link here to charge here ${paypal}`
+            message: `Paypal link to charge here ${paypal}`
           })
     });
     res.on('end', () => {
